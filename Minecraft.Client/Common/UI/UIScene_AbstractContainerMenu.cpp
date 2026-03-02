@@ -45,7 +45,7 @@ void UIScene_AbstractContainerMenu::handleDestroy()
 	g_savedInventoryCursorPos.y = m_pointerPos.y;
 	g_savedInventoryCursorPos.hasSavedPos = true;
 
-	while (ShowCursor(TRUE) < 0);
+	g_KBMInput.SetCursorHiddenForUI(false);
 #endif
 
 	Minecraft *pMinecraft = Minecraft::GetInstance();
@@ -82,7 +82,7 @@ void UIScene_AbstractContainerMenu::InitDataAssociations(int iPad, AbstractConta
 void UIScene_AbstractContainerMenu::PlatformInitialize(int iPad, int startIndex)
 {
 #ifdef _WINDOWS64
-	while (ShowCursor(FALSE) >= 0);
+	g_KBMInput.SetCursorHiddenForUI(true);
 #endif
 
 	m_labelInventory.init( app.GetString(IDS_INVENTORY) );
@@ -179,15 +179,6 @@ void UIScene_AbstractContainerMenu::PlatformInitialize(int iPad, int startIndex)
 		if (m_pointerPos.y < m_fPointerMinY) m_pointerPos.y = m_fPointerMinY;
 		if (m_pointerPos.y > m_fPointerMaxY) m_pointerPos.y = m_fPointerMaxY;
 	}
-
-	extern HWND g_hWnd;
-	RECT rc;
-	GetClientRect(g_hWnd, &rc);
-	POINT center;
-	center.x = (rc.right - rc.left) / 2;
-	center.y = (rc.bottom - rc.top) / 2;
-	ClientToScreen(g_hWnd, &center);
-	SetCursorPos(center.x, center.y);
 #endif
 
 	IggyEvent mouseEvent;
@@ -211,10 +202,6 @@ void UIScene_AbstractContainerMenu::PlatformInitialize(int iPad, int startIndex)
 void UIScene_AbstractContainerMenu::tick()
 {
 	UIScene::tick();
-
-#ifdef _WINDOWS64
-	SetCursor(NULL);
-#endif
 
 	onMouseTick();
 

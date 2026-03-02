@@ -58,6 +58,9 @@ public:
 	void SetMouseGrabbed(bool grabbed);
 	bool IsMouseGrabbed() const { return m_mouseGrabbed; }
 
+	void SetCursorHiddenForUI(bool hidden);
+	bool IsCursorHiddenForUI() const { return m_cursorHiddenForUI; }
+
 	void SetWindowFocused(bool focused);
 	bool IsWindowFocused() const { return m_windowFocused; }
 
@@ -98,6 +101,8 @@ private:
 	int m_mouseWheelAccum;
 
 	bool m_mouseGrabbed;
+
+	bool m_cursorHiddenForUI;
 
 	bool m_windowFocused;
 
